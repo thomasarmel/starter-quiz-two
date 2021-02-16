@@ -1,7 +1,14 @@
 <div class="card">
     <h2>
-        <i class="fab fa-leanpub"></i>
-        {{quiz.name}}
+        <!--- <i class="fab fa-leanpub"></i> --->
+        <i class="fas fa-football-ball" *ngIf="quiz.theme.toString() === 'Sports'"></i>
+        <i class="fas fa-video" *ngIf="quiz.theme.toString() === 'Actors'"></i>
+        Nom: {{quiz.name}}
     </h2>
-    <button class="button-card" (click)="selectQuiz()">Select</button>
+    <p><span>Theme: {{quiz.theme}}</span></p>
+    <p>{{quiz.questions.length}} question(s)</p>
+    <p *ngIf="quiz.creationDate != undefined">{{quiz.creationDate | date}}</p>
+    <button class="button-card" (click)="selectQuiz()">Select</button>&nbsp;
+    <button class="button-delete" (click)="deleteQuiz()">Delete</button>&nbsp;
+    <a routerLink="/edit-quiz/{{quiz.id}}">Edit</a>
 </div>

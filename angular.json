@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "starter-quiz-two"
+  "defaultProject": "starter-quiz-two",
+  "cli": {
+    "analytics": "1c0f30a7-bf7d-4e21-98c0-07bde0ee09fd"
+  }
 }

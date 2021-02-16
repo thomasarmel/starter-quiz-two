@@ -10,11 +10,10 @@ import { Quiz } from '../../../models/quiz.model';
 export class QuizListComponent implements OnInit {
 
   public quizList: Quiz[] = [];
+  public nbQuizzes: number;
 
   constructor(public quizService: QuizService) {
-    this.quizService.quizzes$.subscribe((quizList) => {
-      this.quizList = quizList;
-    });
+    this.quizService.quizzes$.subscribe((quiz) => this.quizList = quiz);
   }
 
   ngOnInit() {
@@ -22,5 +21,10 @@ export class QuizListComponent implements OnInit {
 
   quizSelected(selected: boolean) {
     console.log('event received from child:', selected);
+  }
+
+  quizDeleted(quiz: Quiz) {
+    console.log(quiz);
+    this.quizService.deleteQuiz(quiz);
   }
 }
