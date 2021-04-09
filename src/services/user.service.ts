@@ -24,20 +24,49 @@ export class UserService {
    */
   public users$: BehaviorSubject<User[]> = new BehaviorSubject(this.users);
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.getUsers();
+  }
+
+  getUsers() {
+    const urlToCall="http://localhost:9428/api/users"
+    return this.http.get<User[]>(urlToCall).subscribe((tickets) => {
+      this.users = tickets;
+      this.users$.next(tickets);
+    });
   }
 
   addUser(user: User) {
     // More info: https://angular.io/tutorial/toh-pt6#the-searchterms-rxjs-subject
-    this.users.push(user);
-    this.users$.next(this.users);
+    const urlToCall="http://localhost:9428/api/users"
+    return this.http.post<User>(urlToCall, user).subscribe(
+        () => {
+          this.getUsers();
+        },
+        (error) => {
+          console.log('Erreur adding user: ' + error);
+        }
+      );
+    //this.getUsers();
+    /*this.users.push(user);
+    this.users$.next(this.users);*/
   }
 
   deleteUser(user: User) {
-    let index = this.users.indexOf(user);
+    let id=user
+    const urlToCall="http://localhost:9428/api/users/"+user.id
+    return this.http.delete(urlToCall).subscribe(
+      () => {
+        this.getUsers();
+      },
+      (error) => {
+        console.log('Erreur deleting user: ' + error);
+      }
+    );
+    /*let index = this.users.indexOf(user);
     if(index > -1) {
       this.users.splice(index, 1);
     }
-    this.users$.next(this.users);
+    this.users$.next(this.users);*/
   }
 }
